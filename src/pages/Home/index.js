@@ -5,44 +5,46 @@ import { Container, Login } from "./styles";
 
 export default function Home() {
   const [token, setToken] = useState(null);
-  const clientId = "84292ed427ca4fb88b847b7814917e48";
   const redirectUri = "http://localhost:3000/";
-  const scopes =
-    "user-read-private user-read-email user-read-currently-playing user-read-playback-state playlist-read-private";
 
   useEffect(() => {
-    const _token = localStorage.getItem("token");
-    if (_token) {
-      setToken(_token);
-    }
+    const verifyToken = () => {
+      const _token = localStorage.getItem("token");
+      if (_token) {
+        setToken(_token);
+      }
+    };
+
+    const loginCallback = () => {
+      const hash = window.location.hash
+        .substring(1)
+        .split("&")
+        .reduce(function (initial, item) {
+          if (item) {
+            var parts = item.split("=");
+            initial[parts[0]] = decodeURIComponent(parts[1]);
+          }
+          return initial;
+        }, {});
+
+      window.location.hash = "";
+      if (hash.access_token) {
+        setToken(hash.access_token);
+        localStorage.setItem("token", hash.access_token);
+      }
+    };
+
+    verifyToken();
+    loginCallback();
   }, []);
 
   const login = () => {
     setTimeout(() => {
       window.location.replace(
-        `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&scope=${scopes}&redirect_uri=${redirectUri}&show_dialog=true`
+        `https://accounts.spotify.com/authorize?response_type=token&client_id=${process.env.REACT_APP_SPOTIFY_ID}&scope=${process.env.REACT_APP_SPOTIFY_SCOPE}&redirect_uri=${redirectUri}&show_dialog=true`
       );
     }, 300);
   };
-
-  useEffect(() => {
-    const hash = window.location.hash
-      .substring(1)
-      .split("&")
-      .reduce(function(initial, item) {
-        if (item) {
-          var parts = item.split("=");
-          initial[parts[0]] = decodeURIComponent(parts[1]);
-        }
-        return initial;
-      }, {});
-
-    window.location.hash = "";
-    if (hash.access_token) {
-      setToken(hash.access_token);
-      localStorage.setItem("token", hash.access_token);
-    }
-  }, []);
 
   return (
     <Container>
@@ -55,7 +57,7 @@ export default function Home() {
           </button>
         </Login>
       ) : (
-        <Player token={token} />
+        <Player />
       )}
     </Container>
   );

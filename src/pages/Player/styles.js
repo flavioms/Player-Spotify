@@ -8,6 +8,29 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const MusicTitle = styled.div`
+  width: 80%;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  & > p {
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.2em;
+    animation: continuos 10s linear infinite;
+  }
+
+  @keyframes continuos {
+    0% {
+      transform: translatex(0);
+    }
+    100% {
+      transform: translatex(100%);
+    }
+  }
+`;
+
 export const Box = styled.div`
   width: 80%;
   height: 70%;
@@ -62,11 +85,15 @@ export const ItemMusic = styled.li`
   justify-content: flex-start;
   align-items: center;
   padding: 12px;
-  background: ${props =>
+  background: ${(props) =>
     props.selected ? "rgba(255, 255, 255, 0.3)" : "transparent"};
   & > h1 {
     margin-left: 12px;
     color: #fff;
+
+    small {
+      color: #ccc;
+    }
   }
 
   &:hover {
@@ -80,7 +107,7 @@ export const ItemMusic = styled.li`
     font-size: 18px;
     margin: 0 12px;
     cursor: pointer;
-    animation: ${props => (props.selected ? "shake 0.4s infinite" : "")};
+    animation: ${(props) => (props.selected ? "shake 0.4s infinite" : "")};
   }
 
   @keyframes shake {
@@ -128,13 +155,13 @@ export const Progress = styled.div`
 `;
 
 export const Range = styled.input.attrs({
-  type: "range"
+  type: "range",
 })`
   & {
     -webkit-appearance: none;
     height: 10px;
     width: 100%;
-    background: ${props =>
+    background: ${(props) =>
       `linear-gradient(90deg, #1dd15d ${props.percent}%, #333 ${props.percent}%);`};
     outline: none;
     opacity: 0.7;
@@ -167,17 +194,20 @@ export const BtnGroup = styled.div`
   align-items: center;
 `;
 export const Button = styled.button`
-  background: none;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  padding: 3px 0;
+  line-height: 1.428571429;
+  border-radius: 100%;
   border: none;
-  cursor: pointer;
   color: #1dd15d;
-  font-size: ${props =>
-    props.name.includes("play") || props.name.includes("pause")
-      ? "3em"
-      : "2em"};
+  background: #252525;
+  box-shadow: 4px 4px 8px #1f1f1f, -4px -4px 8px #2b2b2b;
+  margin: 0 6px;
 `;
 
-export const Find = styled.div`
+export const Find = styled.form`
   display: flex;
   position: relative;
   flex-direction: row;
@@ -189,8 +219,9 @@ export const Find = styled.div`
   & > input {
     width: 100%;
     border: none;
-    border-radius: 2em;
-    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    background: #252525;
+    box-shadow: 4px 4px 8px #1f1f1f, -4px -4px 8px #2b2b2b;
     color: #fff;
     font-size: 1em;
     font-weight: 700;
