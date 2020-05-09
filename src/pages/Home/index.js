@@ -5,7 +5,6 @@ import { Container, Login } from "./styles";
 
 export default function Home() {
   const [token, setToken] = useState(null);
-  const redirectUri = "http://localhost:3000/";
 
   useEffect(() => {
     const verifyToken = () => {
@@ -41,7 +40,7 @@ export default function Home() {
   const login = () => {
     setTimeout(() => {
       window.location.replace(
-        `https://accounts.spotify.com/authorize?response_type=token&client_id=${process.env.REACT_APP_SPOTIFY_ID}&scope=${process.env.REACT_APP_SPOTIFY_SCOPE}&redirect_uri=${redirectUri}&show_dialog=true`
+        `https://accounts.spotify.com/authorize?response_type=token&client_id=${process.env.REACT_APP_SPOTIFY_ID}&scope=${process.env.REACT_APP_SPOTIFY_SCOPE}&redirect_uri=${process.env.REACT_APP_SPOTIFY_URI}&show_dialog=true`
       );
     }, 300);
   };
